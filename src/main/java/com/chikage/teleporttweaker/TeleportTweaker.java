@@ -45,7 +45,8 @@ public class TeleportTweaker {
                                         GenericArguments.integer(Text.of("z")),
                                         GenericArguments.optional(
                                                 GenericArguments.seq(
-
+                                                        GenericArguments.integer(Text.of("x-rot")),
+                                                        GenericArguments.integer(Text.of("z-rot"))
                                                 )
                                         )
                                 )
