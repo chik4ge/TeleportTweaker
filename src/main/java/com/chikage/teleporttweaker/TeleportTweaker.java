@@ -29,29 +29,25 @@ public class TeleportTweaker {
     public void onServerStart(GameStartedServerEvent event) {
         PluginContainer plugin = pluginManager.getPlugin("tptweaker").orElse(null);
         CommandSpec tpCommandSpec = CommandSpec.builder()
-                .description(Text.of("/tp [対象のプレイヤー] <移動先のプレイヤー> または /tp [対象のプレイヤー] [移動先のワールド] <x> <y> <z> [<y軸回転> <x軸回転>]"))
+                .description(Text.of("/tp [対象のプレイヤー] <移動先のプレイヤー> または /tp [対象のプレイヤー] <x> <y> <z> [ワールド]"))
                 .permission("tptweaker.command.tp")
                 .arguments(
                         GenericArguments.firstParsing(
                                 GenericArguments.seq(
-                                        GenericArguments.optional(GenericArguments.player(Text.of("player"))),
-                                        GenericArguments.onlyOne(GenericArguments.player(Text.of("target")))
+                                        GenericArguments.player(Text.of("target")),
+                                        GenericArguments.onlyOne(GenericArguments.player(Text.of("player")))
                                 ),
                                 GenericArguments.seq(
-                                        GenericArguments.optional(GenericArguments.player(Text.of("player"))),
-                                        GenericArguments.optional(GenericArguments.string(Text.of("world"))),
+                                        GenericArguments.onlyOne(GenericArguments.player(Text.of("player")))
+                                ),
+                                GenericArguments.seq(
+                                        GenericArguments.optional(GenericArguments.player(Text.of("target"))),
                                         GenericArguments.integer(Text.of("x")),
                                         GenericArguments.integer(Text.of("y")),
                                         GenericArguments.integer(Text.of("z")),
-                                        GenericArguments.optional(
-                                                GenericArguments.seq(
-                                                        GenericArguments.integer(Text.of("x-rot")),
-                                                        GenericArguments.integer(Text.of("z-rot"))
-                                                )
-                                        )
+                                        GenericArguments.optional(GenericArguments.string(Text.of("world")))
                                 )
                         )
-
                 )
                 .executor(new tpCommandExecutor())
                 .build();
@@ -61,6 +57,9 @@ public class TeleportTweaker {
                         "-p: 設定を継続的に保存\n" +
                         "/allowtp info [対象のプレイヤー]"))
                 .permission("tptweaker.command.allowtp")
+                .arguments(
+
+                )
                 .executor(new allowTpCommandExexutor())
                 .build();
 
